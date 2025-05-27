@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Results</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <h2>Results</h2>
+  <div id="quizListContainer">
+    <!-- List of quizzes will be dynamically loaded here -->
+  </div>
+  <div id="resultsContainer" style="display: none;">
+    <!-- Performance data will be dynamically loaded here -->
+  </div>
+  <script>
+    // Function to fetch and display quiz names
+    async function loadQuizzes() {
+      try {
+        const res = await fetch('/api/quizzes'); // Fetch quiz names from the backend
+        if (!res.ok) {
+          throw new Error('Failed to fetch quizzes');
+        }
+        const quizzes = await res.json();
+        const container = document.getElementById('quizListContainer');
+        container.innerHTML = '<h3>Select a Quiz</h3>'; // Add a heading
+
+        quizzes.forEach(quiz => {
+          const button = document.createElement('button');
+          button.textContent = quiz.title;
+          button.onclick = () => loadResults(quiz.title); // Load results for the selected quiz
+          container.appendChild(button);
+        });
+      } catch (error) {
+        console.error('Error loading quizzes:', error);
+        document.getElementById('quizListContainer').textContent = 'Failed to load quizzes.';
+      }
+    }
+
+    // Function to fetch and display performance data for a specific quiz
+    async function loadResults(quizTitle) {
+      try {
+        const res = await fetch(`/api/performance?quiz_title=${encodeURIComponent(quizTitle)}`); // Fetch performance data for the selected quiz
+        if (!res.ok) {
+          throw new Error('Failed to fetch performance data');
+        }
+        const performances = await res.json();
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = `<h3>Results for "${quizTitle}"</h3>`; // Add a heading
+        container.style.display = 'block'; // Show the results container
+        document.getElementById('quizListContainer').style.display = 'none'; // Hide the quiz list
+
+        // Create a table to display results
+        const table = document.createElement('table');
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Correct Answers</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        `;
+        const tbody = table.querySelector('tbody');
+
+        // Populate the table with performance data
+        performances
+          .sort((a, b) => b.correct_count - a.correct_count) // Sort by correct answers in descending order
+          .forEach(performance => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${performance.username}</td>
+              <td>${performance.correct_count}</td>
+              <td>${new Date(performance.submitted_at).toLocaleString()}</td>
+            `;
+            tbody.appendChild(row);
+          });
+
+        container.appendChild(table);
+      } catch (error) {
+        console.error('Error loading performance data:', error);
+        document.getElementById('resultsContainer').textContent = 'Failed to load performance data.';
+      }
+    }
+
+    // Load quizzes on page load
+    loadQuizzes();
+  </script>
+</body>
+</html>

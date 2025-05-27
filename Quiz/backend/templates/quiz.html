@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Disable text selection */
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+        }
+
+        /* Disable right-click menu */
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body oncontextmenu="return false;"> <!-- Disable right-click -->
+    <h2>Available Quizzes</h2>
+    <div id="quizListContainer">
+        <!-- List of quizzes will be dynamically loaded here -->
+    </div>
+    <div id="quizContainer" style="display: none;">
+        <h2 id="quizTitle"></h2>
+        <form id="quizForm">
+            <div id="questionsContainer">
+                <!-- Questions will be dynamically loaded here -->
+            </div>
+            <button type="submit">Submit Quiz</button>
+        </form>
+        <div id="quizMsg"></div>
+    </div>
+    <script>
+        // Function to load all available quizzes from the database
+        async function loadQuizzes() {
+            try {
+                const res = await fetch('/api/quizzes'); // Fetch quizzes from the backend
+                if (!res.ok) {
+                    throw new Error('Failed to fetch quizzes');
+                }
+                const quizzes = await res.json();
+                const container = document.getElementById('quizListContainer');
+                quizzes.forEach((quiz, idx) => {
+                    const button = document.createElement('button');
+                    button.textContent = quiz.title;
+                    button.onclick = () => loadQuiz(quiz);
+                    container.appendChild(button);
+                });
+            } catch (error) {
+                console.error('Error loading quizzes:', error);
+                document.getElementById('quizMsg').textContent = 'Failed to load quizzes. Please try again later.';
+                document.getElementById('quizMsg').style.color = 'red';
+            }
+        }
+
+        // Function to load a specific quiz
+        async function loadQuiz(quiz) {
+            document.getElementById('quizListContainer').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('quizTitle').textContent = quiz.title;
+
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = ''; // Clear previous questions
+            quiz.questions.forEach((question, idx) => {
+                const div = document.createElement('div');
+                div.className = 'quiz-question';
+                div.innerHTML = `
+                    <p>${question.question}</p>
+                    ${question.options.map((opt, i) =>
+                        `<label><input type="radio" name="q${idx}" value="${opt}"> ${opt}</label><br>`
+                    ).join('')}
+                    <hr>
+                `;
+                container.appendChild(div);
+            });
+
+            // Store the correct answers for validation
+            container.dataset.correctAnswers = JSON.stringify(quiz.questions.map(q => q.correct));
+        }
+
+        // Submit quiz function
+        async function submitQuiz() {
+            const form = document.getElementById('quizForm');
+            const answers = [];
+            const questions = document.querySelectorAll('.quiz-question');
+            const correctAnswers = JSON.parse(document.getElementById('questionsContainer').dataset.correctAnswers);
+            let correctCount = 0;
+
+            questions.forEach((qDiv, idx) => {
+                const selected = form.querySelector(`input[name="q${idx}"]:checked`);
+                const answer = selected ? selected.value : null;
+                answers.push(answer);
+
+                // Check if the answer is correct
+                if (answer === correctAnswers[idx]) {
+                    correctCount++;
+                }
+            });
+
+            // Submit answers and correct count to backend
+            const res = await fetch('/api/performance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ answers: answers, correctCount: correctCount })
+            });
+            const data = await res.json();
+            document.getElementById('quizMsg').textContent = data.msg;
+            if (res.status === 201) {
+                document.getElementById('quizMsg').style.color = 'green';
+            } else {
+                document.getElementById('quizMsg').style.color = 'red';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('quizForm').onsubmit = async function(e) {
+            e.preventDefault();
+            await submitQuiz();
+        };
+
+        // Load the list of quizzes on page load
+        loadQuizzes();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <h2>Admin Panel</h2>
+    <button id="logoutButton">Logout</button> <!-- Logout Button -->
+
+    <!-- Options for Admin -->
+    <div id="adminOptions">
+        <button id="viewPerformanceButton">View Performance</button>
+        <button id="addQuizButton">Add Quiz</button>
+    </div>
+
+    <!-- Add Quiz Section -->
+    <div id="addQuizSection" style="display: none;">
+        <h3>Add Quiz</h3>
+        <form id="quizForm">
+            <input type="text" name="title" placeholder="Quiz Title" required><br>
+            <div id="questionsContainer">
+                <div class="questionBlock">
+                    <textarea name="question" placeholder="Question" required></textarea><br>
+                    <input type="text" name="option1" placeholder="Option 1" required><br>
+                    <input type="text" name="option2" placeholder="Option 2" required><br>
+                    <input type="text" name="option3" placeholder="Option 3" required><br>
+                    <input type="text" name="option4" placeholder="Option 4" required><br>
+                    <input type="text" name="correct" placeholder="Correct Option" required><br>
+                    <button type="button" class="removeQuestion" onclick="this.parentElement.remove()">Remove Question</button>
+                    <hr>
+                </div>
+            </div>
+            <button type="button" id="addQuestion">Add Another Question</button><br>
+            <button type="submit">Add Quiz</button>
+        </form>
+        <div id="adminMsg"></div>
+    </div>
+
+    <script>
+        // Show Add Quiz Section
+        document.getElementById('addQuizButton').onclick = function() {
+            document.getElementById('adminOptions').style.display = 'none';
+            document.getElementById('addQuizSection').style.display = 'block';
+        };
+
+        // Redirect to results.html for performance
+        document.getElementById('viewPerformanceButton').onclick = function() {
+            window.location.href = '/results'; // Redirect to results.html
+        };
+
+        // Add another question block
+        document.getElementById('addQuestion').onclick = function() {
+            const container = document.getElementById('questionsContainer');
+            const block = document.createElement('div');
+            block.className = 'questionBlock';
+            block.innerHTML = `
+                <textarea name="question" placeholder="Question" required></textarea><br>
+                <input type="text" name="option1" placeholder="Option 1" required><br>
+                <input type="text" name="option2" placeholder="Option 2" required><br>
+                <input type="text" name="option3" placeholder="Option 3" required><br>
+                <input type="text" name="option4" placeholder="Option 4" required><br>
+                <input type="text" name="correct" placeholder="Correct Option" required><br>
+                <button type="button" class="removeQuestion" onclick="this.parentElement.remove()">Remove Question</button>
+                <hr>
+            `;
+            container.appendChild(block);
+        };
+
+        // Handle quiz form submission
+        document.getElementById('quizForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const title = form.title.value;
+            const questionBlocks = form.querySelectorAll('.questionBlock');
+            const questions = [];
+            questionBlocks.forEach(block => {
+                questions.push({
+                    question: block.querySelector('textarea[name="question"]').value,
+                    options: [
+                        block.querySelector('input[name="option1"]').value,
+                        block.querySelector('input[name="option2"]').value,
+                        block.querySelector('input[name="option3"]').value,
+                        block.querySelector('input[name="option4"]').value
+                    ],
+                    correct: block.querySelector('input[name="correct"]').value
+                });
+            });
+            const res = await fetch('/api/quiz', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: title,
+                    questions: questions
+                })
+            });
+            const data = await res.json();
+            document.getElementById('adminMsg').textContent = data.msg;
+            if (res.status === 201) {
+                document.getElementById('adminMsg').style.color = 'green';
+                form.reset();
+                document.getElementById('questionsContainer').innerHTML = `
+                    <div class="questionBlock">
+                        <textarea name="question" placeholder="Question" required></textarea><br>
+                        <input type="text" name="option1" placeholder="Option 1" required><br>
+                        <input type="text" name="option2" placeholder="Option 2" required><br>
+                        <input type="text" name="option3" placeholder="Option 3" required><br>
+                        <input type="text" name="option4" placeholder="Option 4" required><br>
+                        <input type="text" name="correct" placeholder="Correct Option" required><br>
+                        <button type="button" class="removeQuestion" onclick="this.parentElement.remove()">Remove Question</button>
+                        <hr>
+                    </div>
+                `;
+            } else {
+                document.getElementById('adminMsg').style.color = 'red';
+            }
+        };
+
+        // Handle logout
+        document.getElementById('logoutButton').onclick = async function() {
+            const res = await fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await res.json();
+            if (res.status === 200) {
+                alert(data.msg);
+                window.location.href = '/'; // Redirect to index page
+            } else {
+                alert('Logout failed!');
+            }
+        };
+    </script>
+</body>
+
+</html>
