@@ -69,7 +69,8 @@ def add_quiz():
 # Get available quizzes
 @app.route('/api/quizzes', methods=['GET'])
 def get_quizzes():
-    quizzes = list(mongo.db.quizzes.find({}, {'_id': 0, 'title': 1}))  # Fetch only quiz titles
+    # Fetch all quizzes from the database
+    quizzes = list(mongo.db.quizzes.find({}, {'_id': 0}))  # Exclude MongoDB's _id field
     return jsonify(quizzes)
 
 # Submit quiz performance
