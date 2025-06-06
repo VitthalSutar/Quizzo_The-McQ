@@ -63,8 +63,7 @@ flask run
 ---
 
 ## 🎮 How to Play  
-
-🔹 Choose your preferred quiz category & difficulty.  
+ 
 🔹 Answer within the time limit & score big!  
 🔹 Track your progress & challenge your friends.  
 🔹 Admins can add new quizzes & analyze user performances.  
@@ -83,12 +82,6 @@ Join the **Quizzo** community and help make it even better!
 5. **Submit a Pull Request**  
 
 🚀 Your contribution can help shape **the ultimate quiz platform!**  
-
----
-
-## 📜 License  
-
-Licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.  
 
 ---
 
