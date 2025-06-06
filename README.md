@@ -94,4 +94,5 @@ Licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ## 📬 Contact  
 
-Created by **[VitthalSutar](https://github.com/VitthalSutar)** – Have questions or suggestions? **Reach out!**  
+Created by **[VitthalSutar](https://github.com/VitthalSutar)** 
+**[Adownloader7](https://github.com/Adownloader7)**– Have questions or suggestions? **Reach out!**  
