@@ -1,17 +1,22 @@
-````markdown name=README.md
-# Quizzo 🎉
+````markdown
+# 🎉 Quizzo: The Ultimate Quiz Platform! 🧠
 
-![Flask](https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=white&style=for-the-badge)
-![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white&style=for-the-badge)
-
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/your-username/quizzo)](https://github.com/your-username/quizzo/stargazers)
+<p align="center">
+  <img src="https://img.shields.io/badge/Flask-000000?logo=flask&logoColor=white&style=for-the-badge" alt="Flask">
+  <img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white&style=for-the-badge" alt="Python">
+  <img src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/github/stars/your-username/quizzo?style=for-the-badge" alt="Stars">
+</p>
 
 ---
 
-## ✨ Quizzo: The Ultimate Quiz Platform! 🧠
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/674621/209432385-1e2e2e2e-1e2e-4e2e-8e2e-1e2e2e2e2e2e.png" width="300" alt="Quizzo Logo"/>
+</p>
 
-Quizzo is a fun and interactive quiz platform where users can test their knowledge across a variety of topics! Whether you’re a trivia enthusiast or just want to challenge your friends, Quizzo has you covered.
+---
+
+> **Quizzo** is a fun and interactive quiz platform where users can test their knowledge across a variety of topics! Whether you’re a trivia enthusiast or just want to challenge your friends, Quizzo has you covered.
 
 ---
 
@@ -23,14 +28,18 @@ Quizzo is a fun and interactive quiz platform where users can test their knowled
 - 🏆 **Instant scoring and leaderboard**
 - 📝 **Add your own quizzes (admin support)**
 - 📱 **Fully responsive for mobile and desktop**
+- 🔒 **Role-based login (Admin/User)**
+- 📊 **Performance tracking for users**
+- 🌐 **MongoDB-powered backend**
 
 ---
 
 ## 📸 Screenshots
 
-<!-- Add your screenshots here -->
-![Quizzo Home](assets/screenshots/home.png)
-![Quizzo Question](assets/screenshots/question.png)
+<p align="center">
+  <img src="assets/screenshots/home.png" width="350" alt="Quizzo Home"/>
+  <img src="assets/screenshots/question.png" width="350" alt="Quizzo Question"/>
+</p>
 
 ---
 
@@ -41,17 +50,14 @@ Quizzo is a fun and interactive quiz platform where users can test their knowled
     git clone https://github.com/your-username/quizzo.git
     cd quizzo
     ```
-
 2. **Install dependencies**
     ```bash
     pip install -r requirements.txt
     ```
-
 3. **Start the Flask server**
     ```bash
     flask run
     ```
-
 4. **Open your browser**
     - Visit [http://localhost:5000](http://localhost:5000) to get started!
 
@@ -63,6 +69,7 @@ Quizzo is a fun and interactive quiz platform where users can test their knowled
 - 🕒 Answer the questions within the time limit.
 - 📊 View your score and challenge friends!
 - 🛠️ (Admins) Add new quizzes via the admin panel.
+- 👀 (Admins) View all user performances and quiz stats.
 
 ---
 
@@ -87,5 +94,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ## 📞 Contact
 
 Created by [VitthalSutar](https://github.com/VitthalSutar) — feel free to reach out!
-
 ````
