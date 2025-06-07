@@ -43,7 +43,7 @@ def login():
     data = request.json
     username = data.get('username')
     password = data.get('password')
-    user = mongo.db.users.find_one({'username': username})
+    user = mongo.db.users.find_one({'username': data.get('username')})
     if user and check_password_hash(user['password'], password):
         session['username'] = username
         session['role'] = user.get('role', 'user')
