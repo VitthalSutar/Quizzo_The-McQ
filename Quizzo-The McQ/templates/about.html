@@ -85,9 +85,11 @@
                                     </svg>
                                 </span>
                             </div>
-                            <div class="text">LinkedIn</div>
-                            Vitthal Sutar
+                            
+                            
                         </a>
+                        <br>
+                        <div>Vitthal Sutar</div>
                     </div>
                 </div>
                 <div class="tooltip-container" style="height: fit-content;width: fit-content;">
@@ -116,9 +118,11 @@
                                     </svg>
                                 </span>
                             </div>
-                            <div class="text">LinkedIn</div>
-                            Ankita Harihar
+                          
+                           
                         </a>
+                        <br>
+                         <div>Ankita Harihar</div>
                     </div>
                 </div>
             </div>
@@ -131,4 +135,21 @@
         <p style="text-align:center; margin-top:2rem; color:#888;">&copy; 2025 Quizzo. All rights reserved.</p>
     </div>
 </body>
+<script>
+// Disable right-click context menu
+window.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+});
+// Disable F12, Ctrl+Shift+I, Ctrl+U, Ctrl+Shift+C
+window.addEventListener('keydown', function(e) {
+    if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) ||
+        (e.ctrlKey && e.key === 'U')
+    ) {
+        e.preventDefault();
+        return false;
+    }
+});
+</script>
 </html>
