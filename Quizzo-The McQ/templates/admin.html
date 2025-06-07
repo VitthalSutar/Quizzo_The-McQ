@@ -6,37 +6,38 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
-<body style="background: #f4f4f4; font-family: Arial, sans-serif;">
-    <h2>Admin Panel</h2>
-    <button class="btn" id="logoutButton">Logout</button> <!-- Logout Button -->
-
-    <!-- Options for Admin -->
-    <div id="adminOptions">
-        <button id="viewPerformanceButton">View Performance</button>
-        <button id="addQuizButton">Add Quiz</button>
-    </div>
-
-    <!-- Add Quiz Section -->
-    <div id="addQuizSection" style="display: none;">
-        <h3>Add Quiz</h3>
-        <form id="quizForm">
-            <input type="text" name="title" placeholder="Quiz Title" required><br>
-            <div id="questionsContainer">
-                <div class="questionBlock">
-                    <textarea name="question" placeholder="Question" required></textarea><br>
-                    <input type="text" name="option1" placeholder="Option 1" required><br>
-                    <input type="text" name="option2" placeholder="Option 2" required><br>
-                    <input type="text" name="option3" placeholder="Option 3" required><br>
-                    <input type="text" name="option4" placeholder="Option 4" required><br>
-                    <input type="text" name="correct" placeholder="Correct Option" required><br>
-                    <button type="button" class="removeQuestion" onclick="this.parentElement.remove()">Remove Question</button>
-                    <hr>
+<body style="    background: #6dc9fe; font-family: Arial, sans-serif;">
+    <div style="max-width:700px;margin:2.5rem auto 2rem auto;padding:2.5rem 2.5rem;background:#fff;border-radius:18px;box-shadow:0 4px 24px rgba(0,123,255,0.08);">
+        <h2 style="color:#007bff;text-align:center;margin-bottom:2rem;letter-spacing:1px;">Admin Panel</h2>
+        <button class="btn-3d" id="logoutButton" style="float:right;margin-bottom:1.5rem;background:linear-gradient(120deg,#ff4d4d 0%,#ffb347 100%);color:#fff;">Logout</button>
+        <div style="clear:both;"></div>
+        <!-- Options for Admin -->
+        <div id="adminOptions" style="display:flex;justify-content:center;gap:2rem;margin-bottom:2.5rem;">
+            <button class="btn-3d" id="viewPerformanceButton" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">View Performance</button>
+            <button class="btn-3d" id="addQuizButton" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">Add Quiz</button>
+        </div>
+        <!-- Add Quiz Section -->
+        <div id="addQuizSection" style="display: none;">
+            <h3 style="color:#007bff;text-align:center;margin-bottom:1.5rem;">Add Quiz</h3>
+            <form id="quizForm">
+                <input type="text" name="title" placeholder="Quiz Title" required style="width:100%;margin-bottom:1rem;background:#f4f6fb;color:#222;border:1px solid #cce0ff;" class="input-field"><br>
+                <div id="questionsContainer">
+                    <div class="questionBlock" style="background:#f4f6fb;border-radius:10px;box-shadow:0 2px 8px rgba(0,123,255,0.07);padding:1.2rem 1rem 1rem 1rem;margin-bottom:1.5rem;">
+                        <textarea name="question" placeholder="Question" required style="width:100%;margin-bottom:0.7rem;background:#fff;color:#222;border:1px solid #cce0ff;" class="input-field"></textarea><br>
+                        <input type="text" name="option1" placeholder="Option 1" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <input type="text" name="option2" placeholder="Option 2" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <input type="text" name="option3" placeholder="Option 3" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <input type="text" name="option4" placeholder="Option 4" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <input type="text" name="correct" placeholder="Correct Option" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <button type="button" class="btn" style="background:#ff4d4d;color:#fff;" onclick="this.parentElement.remove()">Remove Question</button>
+                        <hr>
+                    </div>
                 </div>
-            </div>
-            <button type="button" id="addQuestion">Add Another Question</button><br>
-            <button type="submit">Add Quiz</button>
-        </form>
-        <div id="adminMsg"></div>
+                <button type="button" class="btn-3d" id="addQuestion" style="margin-bottom:1.2rem;background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">Add Another Question</button><br>
+                <button type="submit" class="btn-3d" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">Add Quiz</button>
+            </form>
+            <div id="adminMsg" style="text-align:center;margin-top:1.5rem;font-weight:bold;"></div>
+        </div>
     </div>
 
     <script>
@@ -57,13 +58,13 @@
             const block = document.createElement('div');
             block.className = 'questionBlock';
             block.innerHTML = `
-                <textarea name="question" placeholder="Question" required></textarea><br>
-                <input type="text" name="option1" placeholder="Option 1" required><br>
-                <input type="text" name="option2" placeholder="Option 2" required><br>
-                <input type="text" name="option3" placeholder="Option 3" required><br>
-                <input type="text" name="option4" placeholder="Option 4" required><br>
-                <input type="text" name="correct" placeholder="Correct Option" required><br>
-                <button type="button" class="removeQuestion" onclick="this.parentElement.remove()">Remove Question</button>
+                <textarea name="question" placeholder="Question" required style="width:100%;margin-bottom:0.7rem;" class="input-field"></textarea><br>
+                <input type="text" name="option1" placeholder="Option 1" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                <input type="text" name="option2" placeholder="Option 2" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                <input type="text" name="option3" placeholder="Option 3" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                <input type="text" name="option4" placeholder="Option 4" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                <input type="text" name="correct" placeholder="Correct Option" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                <button type="button" class="btn" style="background:#ff4d4d;color:#fff;" onclick="this.parentElement.remove()">Remove Question</button>
                 <hr>
             `;
             container.appendChild(block);
@@ -104,14 +105,14 @@
                 document.getElementById('adminMsg').style.color = 'green';
                 form.reset();
                 document.getElementById('questionsContainer').innerHTML = `
-                    <div class="questionBlock">
-                        <textarea name="question" placeholder="Question" required></textarea><br>
-                        <input type="text" name="option1" placeholder="Option 1" required><br>
-                        <input type="text" name="option2" placeholder="Option 2" required><br>
-                        <input type="text" name="option3" placeholder="Option 3" required><br>
-                        <input type="text" name="option4" placeholder="Option 4" required><br>
-                        <input type="text" name="correct" placeholder="Correct Option" required><br>
-                        <button type="button" class="removeQuestion" onclick="this.parentElement.remove()">Remove Question</button>
+                    <div class="questionBlock" style="background:#f4f6fb;border-radius:10px;box-shadow:0 2px 8px rgba(0,123,255,0.07);padding:1.2rem 1rem 1rem 1rem;margin-bottom:1.5rem;">
+                        <textarea name="question" placeholder="Question" required style="width:100%;margin-bottom:0.7rem;" class="input-field"></textarea><br>
+                        <input type="text" name="option1" placeholder="Option 1" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <input type="text" name="option2" placeholder="Option 2" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <input type="text" name="option3" placeholder="Option 3" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <input type="text" name="option4" placeholder="Option 4" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <input type="text" name="correct" placeholder="Correct Option" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
+                        <button type="button" class="btn" style="background:#ff4d4d;color:#fff;" onclick="this.parentElement.remove()">Remove Question</button>
                         <hr>
                     </div>
                 `;
