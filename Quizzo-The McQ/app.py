@@ -20,6 +20,10 @@ def serve_page(page):
     except:
         return render_template("index.html")
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 # (Optional) You can remove all API endpoints below if you want to remove API routes as well.
 # If you want to keep API functionality, leave the following code.
 # If you want to remove API routes, delete everything below this comment.
