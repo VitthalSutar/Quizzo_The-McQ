@@ -20,6 +20,7 @@
         <!-- Add Quiz Section -->
         <div id="addQuizSection" style="display: none;">
             <h3 style="color:#007bff;text-align:center;margin-bottom:1.5rem;">Add Quiz</h3>
+            <button type="button" id="backFromAddQuiz" class="btn-3d" style="float:left;margin-bottom:1.5rem;background:linear-gradient(120deg,#ff4d4d 0%,#ffb347 100%);color:#fff;">&#8592; Back</button>
             <form id="quizForm">
                 <input type="text" name="title" placeholder="Quiz Title" required style="width:100%;margin-bottom:1rem;background:#f4f6fb;color:#222;border:1px solid #cce0ff;" class="input-field"><br>
                 <input type="number" name="timer" placeholder="Timer (seconds)" min="10" required style="width:100%;margin-bottom:1rem;background:#f4f6fb;color:#222;border:1px solid #cce0ff;" class="input-field"><br>
@@ -43,6 +44,7 @@
         <!-- Quizzes Section -->
         <div id="quizzesSection" style="display: none;">
             <h3 style="color:#007bff;text-align:center;margin-bottom:1.5rem;">All Quizzes</h3>
+            <button type="button" id="backFromQuizzes" class="btn-3d" style="float:left;margin-bottom:1.5rem;background:linear-gradient(120deg,#ff4d4d 0%,#ffb347 100%);color:#fff;">&#8592; Back</button>
             <div id="quizzesList"></div>
         </div>
     </div>
@@ -199,6 +201,18 @@
             } else {
                 alert('Logout failed!');
             }
+        };
+
+        // Back button for Add Quiz
+        document.getElementById('backFromAddQuiz').onclick = function() {
+            document.getElementById('addQuizSection').style.display = 'none';
+            document.getElementById('adminOptions').style.display = 'flex';
+        };
+
+        // Back button for Quizzes
+        document.getElementById('backFromQuizzes').onclick = function() {
+            document.getElementById('quizzesSection').style.display = 'none';
+            document.getElementById('adminOptions').style.display = 'flex';
         };
     </script>
 </body>
