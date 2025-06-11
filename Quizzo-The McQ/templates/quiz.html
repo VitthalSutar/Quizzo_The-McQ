@@ -6,107 +6,141 @@
     <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
-        /* Disable text selection */
         body {
-            user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-            -moz-user-select: none;
+            background: #232946;
+            color: #fff;
         }
 
-        /* Disable right-click menu */
-        body {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+        .quiz-container {
+            max-width: 700px;
+            margin: 2rem auto;
+            background: #fff;
+            color: #232946;
+            border-radius: 14px;
+            box-shadow: 0 4px 24px rgba(0, 198, 255, 0.08);
+            padding: 2rem 2rem 1.5rem 2rem;
+        }
+
+        #timerContainer {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        #timerClock {
+            font-size: 1.3rem;
+            color: #ff4d4d;
+            font-weight: bold;
+        }
+
+        .quiz-question {
+            background: #f4f6fb;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 198, 255, 0.07);
+            padding: 1.2rem 1rem 1rem 1rem;
+            margin-bottom: 1.5rem;
+            transition: box-shadow 0.2s;
+        }
+
+        .quiz-question:hover {
+            box-shadow: 0 4px 16px #00c6ff44;
+        }
+
+        .btn-3d {
+            background: linear-gradient(120deg, #00c6ff 0%, #007bff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
+        }
+
+        .btn-3d:hover {
+            background: linear-gradient(120deg, #007bff 0%, #00c6ff 100%);
         }
     </style>
 </head>
 
 <body oncontextmenu="return false;">
-    <h2 style="text-align:center;color:#00c6ff;margin-top:2rem;letter-spacing:1px;">Available Quizzes</h2>
-    <div id="quizListContainer" style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;margin:2rem 0;">
-        <!-- List of quizzes will be dynamically loaded here -->
-    </div>
-    <div id="quizContainer" style="display: none;max-width:600px;margin:2rem auto 0 auto;background:#23243a;border-radius:18px;box-shadow:0 4px 24px rgba(0,198,255,0.10);padding:2.5rem 2rem;">
-        <h2 id="quizTitle" style="color:#ffeba7;text-align:center;margin-bottom:2rem;"></h2>
+    <div class="quiz-container">
+        <h2 id="quizTitle"></h2>
+        <div id="timerContainer">
+            <span id="timerClock"></span>
+        </div>
         <form id="quizForm">
-            <div id="questionsContainer">
-                <!-- Questions will be dynamically loaded here -->
-            </div>
-            <button type="submit" class="btn-3d" style="margin:2rem auto 0 auto;display:block;">Submit Quiz</button>
+            <div id="questionsContainer"></div>
+            <button type="button" class="btn-3d" onclick="submitQuiz()">Submit Quiz</button>
         </form>
-        <div id="quizMsg" style="text-align:center;margin-top:1.5rem;font-weight:bold;"></div>
+        <div id="quizMsg" style="margin-top:1.2rem;font-weight:bold;"></div>
     </div>
     <script>
-        // Function to load all available quizzes from the database
+        let quizTimerInterval;
+        let quizTimeLeft = 60;
+        let currentQuiz = null;
+
+        window.onload = loadQuizzes;
+
         async function loadQuizzes() {
-            try {
-                const res = await fetch('/api/quizzes'); // Fetch quizzes from the backend
-                if (!res.ok) {
-                    throw new Error('Failed to fetch quizzes');
-                }
-                const quizzes = await res.json();
-                const container = document.getElementById('quizListContainer');
-                container.innerHTML = '';
-                quizzes.forEach((quiz, idx) => {
-                    const button = document.createElement('button');
-                    button.textContent = quiz.title;
-                    button.className = 'btn-3d';
-                    button.style.minWidth = '180px';
-                    button.style.fontSize = '1.1rem';
-                    button.style.background = `linear-gradient(120deg, #00c6ff 0%, #007bff 100%)`;
-                    button.style.margin = '0.5rem 0';
-                    button.onclick = () => loadQuiz(quiz);
-                    button.onmouseover = function() { this.style.transform = 'scale(1.07)'; };
-                    button.onmouseout = function() { this.style.transform = 'scale(1)'; };
-                    container.appendChild(button);
-                });
-            } catch (error) {
-                console.error('Error loading quizzes:', error);
-                document.getElementById('quizMsg').textContent = 'Failed to load quizzes. Please try again later.';
-                document.getElementById('quizMsg').style.color = 'red';
-            }
+            const res = await fetch('/api/quizzes');
+            const quizzes = await res.json();
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            const quizList = document.createElement('div');
+            quizList.style.textAlign = 'center';
+            quizList.innerHTML = '<h3>Select a Quiz</h3>';
+            quizzes.forEach((quiz, idx) => {
+                const button = document.createElement('button');
+                button.textContent = quiz.title;
+                button.className = 'btn-3d';
+                button.style.minWidth = '180px';
+                button.style.fontSize = '1.1rem';
+                button.style.margin = '0.5rem 0';
+                button.onclick = () => loadQuiz(quiz);
+                quizList.appendChild(button);
+            });
+            container.appendChild(quizList);
+            document.getElementById('quizTitle').textContent = '';
+            document.getElementById('timerClock').textContent = '';
         }
 
-        // Function to load a specific quiz
         async function loadQuiz(quiz) {
-            document.getElementById('quizListContainer').style.display = 'none';
-            document.getElementById('quizContainer').style.display = 'block';
+            clearInterval(quizTimerInterval);
+            currentQuiz = quiz;
             document.getElementById('quizTitle').textContent = quiz.title;
-
             const container = document.getElementById('questionsContainer');
             container.innerHTML = '';
             quiz.questions.forEach((question, idx) => {
                 const div = document.createElement('div');
                 div.className = 'quiz-question';
-                div.style.background = '#1f2029';
-                div.style.borderRadius = '10px';
-                div.style.boxShadow = '0 2px 8px rgba(0,198,255,0.07)';
-                div.style.padding = '1.2rem 1rem 1rem 1rem';
-                div.style.marginBottom = '1.5rem';
-                div.style.transition = 'box-shadow 0.2s';
-                div.onmouseover = function() { this.style.boxShadow = '0 4px 16px #00c6ff44'; };
-                div.onmouseout = function() { this.style.boxShadow = '0 2px 8px rgba(0,198,255,0.07)'; };
                 div.innerHTML = `
-                    <p style="font-size:1.15rem;color:#ffeba7;font-weight:600;">Q${idx+1}. ${question.question}</p>
+                    <p style="font-size:1.15rem;color:#007bff;font-weight:600;">Q${idx+1}. ${question.question}</p>
                     <div style="margin-top:0.7rem;">
                     ${question.options.map((opt, i) =>
-                        `<label style='display:block;margin-bottom:0.5rem;cursor:pointer;color:#f5f5f5;font-size:1rem;'><input type="radio" name="q${idx}" value="${opt}" style="margin-right:8px;"> ${opt}</label>`
+                        `<label style='display:block;margin-bottom:0.5rem;cursor:pointer;color:#232946;font-size:1rem;'><input type="radio" name="q${idx}" value="${opt}" style="margin-right:8px;"> ${opt}</label>`
                     ).join('')}
                     </div>
                 `;
                 container.appendChild(div);
             });
-            // Store the correct answers for validation
             container.dataset.correctAnswers = JSON.stringify(quiz.questions.map(q => q.correct));
+            // Timer logic
+            quizTimeLeft = parseInt(quiz.timer) || 60;
+            document.getElementById('timerClock').textContent = `Time Left: ${quizTimeLeft}s`;
+            quizTimerInterval = setInterval(() => {
+                quizTimeLeft--;
+                document.getElementById('timerClock').textContent = `Time Left: ${quizTimeLeft}s`;
+                if (quizTimeLeft <= 0) {
+                    clearInterval(quizTimerInterval);
+                    document.getElementById('timerClock').textContent = "Time's up!";
+                    submitQuiz();
+                }
+            }, 1000);
         }
 
-        // Submit quiz function
         async function submitQuiz() {
+            clearInterval(quizTimerInterval);
             const form = document.getElementById('quizForm');
             const answers = [];
             const questions = document.querySelectorAll('.quiz-question');
@@ -120,8 +154,7 @@
                     correctCount++;
                 }
             });
-
-            // Fetch username from backend (session) or prompt if not available
+            // Fetch username from backend (session)
             let username = "";
             try {
                 const userRes = await fetch('/api/user');
@@ -129,14 +162,9 @@
                     const userData = await userRes.json();
                     username = userData.username || "";
                 }
-            } catch (e) {
-                // fallback if needed
-            }
-
-            // Get quiz name and timestamp
+            } catch (e) {}
             const quizTitle = document.getElementById('quizTitle').textContent;
             const timestamp = new Date().toISOString();
-
             const res = await fetch('/api/performance', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -156,13 +184,6 @@
                 document.getElementById('quizMsg').style.color = 'red';
             }
         }
-
-        document.getElementById('quizForm').onsubmit = async function(e) {
-            e.preventDefault();
-            await submitQuiz();
-        };
-
-        loadQuizzes();
     </script>
 </body>
 

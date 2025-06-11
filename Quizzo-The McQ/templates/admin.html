@@ -22,6 +22,7 @@
             <h3 style="color:#007bff;text-align:center;margin-bottom:1.5rem;">Add Quiz</h3>
             <form id="quizForm">
                 <input type="text" name="title" placeholder="Quiz Title" required style="width:100%;margin-bottom:1rem;background:#f4f6fb;color:#222;border:1px solid #cce0ff;" class="input-field"><br>
+                <input type="number" name="timer" placeholder="Timer (seconds)" min="10" required style="width:100%;margin-bottom:1rem;background:#f4f6fb;color:#222;border:1px solid #cce0ff;" class="input-field"><br>
                 <div id="questionsContainer">
                     <div class="questionBlock" style="background:#f4f6fb;border-radius:10px;box-shadow:0 2px 8px rgba(0,123,255,0.07);padding:1.2rem 1rem 1rem 1rem;margin-bottom:1.5rem;">
                         <textarea name="question" placeholder="Question" required style="width:100%;margin-bottom:0.7rem;background:#fff;color:#222;border:1px solid #cce0ff;" class="input-field"></textarea><br>
@@ -78,7 +79,7 @@
                 quizDiv.style.marginBottom = '1.5rem';
                 quizDiv.innerHTML = `
                     <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <h4 style="color:#007bff;margin:0;">${quiz.title}</h4>
+                        <h4 style="color:#007bff;margin:0;">${quiz.title} <span style="font-size:0.9em;color:#888;">(${quiz.timer || 60}s)</span></h4>
                         <button class="btn" style="background:#ff4d4d;color:#fff;padding:6px 16px;border-radius:6px;font-size:0.95rem;" onclick="deleteQuiz('${quiz.title.replace(/'/g, "\\'")}')">Delete</button>
                     </div>
                     <ol style="margin-left:1.2rem;">
@@ -135,6 +136,7 @@
             e.preventDefault();
             const form = e.target;
             const title = form.title.value;
+            const timer = form.timer.value;
             const questionBlocks = form.querySelectorAll('.questionBlock');
             const questions = [];
             questionBlocks.forEach(block => {
@@ -156,7 +158,8 @@
                 },
                 body: JSON.stringify({
                     title: title,
-                    questions: questions
+                    questions: questions,
+                    timer: timer
                 })
             });
             const data = await res.json();

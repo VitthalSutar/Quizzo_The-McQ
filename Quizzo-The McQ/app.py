@@ -67,8 +67,18 @@ def add_quiz():
     if session.get('role') != 'admin':
         return jsonify({"msg": "Admins only"}), 403
     data = request.json
-    mongo.db.quizzes.insert_one(data)
-    return jsonify({"msg": "Quiz added"}), 201
+    title = data.get('title')
+    questions = data.get('questions')
+    timer = int(data.get('timer', 60))
+    if not title or not questions:
+        return jsonify({'msg': 'Title and questions required'}), 400
+    quiz = {
+        "title": title,
+        "questions": questions,
+        "timer": timer
+    }
+    mongo.db.quizzes.insert_one(quiz)
+    return jsonify({'msg': 'Quiz added successfully'}), 201
 
 # Admin: Delete quiz
 @app.route('/api/quiz', methods=['DELETE'])
