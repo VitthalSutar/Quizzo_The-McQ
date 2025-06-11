@@ -60,6 +60,28 @@
         .btn-3d:hover {
             background: linear-gradient(120deg, #007bff 0%, #00c6ff 100%);
         }
+
+        .warning-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff4d4d;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
     </style>
 </head>
 
@@ -80,6 +102,9 @@
         let quizTimerInterval;
         let quizTimeLeft = 60;
         let currentQuiz = null;
+        let mouseTimer;
+        let isFullscreen = false;
+        let quizActive = false;
 
         window.onload = loadQuizzes;
 
@@ -138,10 +163,82 @@
                     submitQuiz();
                 }
             }, 1000);
+
+            // Setup anti-cheating measures
+            quizActive = true;
+            enterFullscreen();
+
+            // Monitor fullscreen
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement === null && isFullscreen && quizActive) {
+                    showWarning("Fullscreen mode exited! Quiz will be submitted.");
+                    submitQuiz();
+                }
+            });
+
+            // Monitor tab visibility
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden && quizActive) {
+                    showWarning("Tab change detected! Quiz will be submitted.");
+                    submitQuiz();
+                }
+            });
+
+            // Monitor mouse activity
+            document.addEventListener('mousemove', resetMouseTimer);
+            document.addEventListener('mousedown', resetMouseTimer);
+            document.addEventListener('keypress', resetMouseTimer);
+            document.addEventListener('DOMMouseScroll', resetMouseTimer);
+            document.addEventListener('mousewheel', resetMouseTimer);
+            document.addEventListener('touchmove', resetMouseTimer);
+            document.addEventListener('MSPointerMove', resetMouseTimer);
+
+            resetMouseTimer(); // Start the timer
+        }
+
+        function showWarning(message) {
+            const warning = document.createElement('div');
+            warning.className = 'warning-message';
+            warning.textContent = message;
+            document.body.appendChild(warning);
+            setTimeout(() => warning.remove(), 3000);
+        }
+
+        function resetMouseTimer() {
+            clearTimeout(mouseTimer);
+            if (quizActive) {
+                mouseTimer = setTimeout(() => {
+                    showWarning("Inactivity detected! Quiz will be submitted.");
+                    submitQuiz();
+                }, 15000); // 15 seconds
+            }
+        }
+
+        function enterFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+            isFullscreen = true;
         }
 
         async function submitQuiz() {
-            clearInterval(quizTimerInterval);
+            // Clear all timers and reset states
+            quizActive = false;
+            clearTimeout(mouseTimer);
+            clearInterval(quizTimerInterval); // Clear the quiz timer
+            document.getElementById('timerClock').textContent = 'Quiz Submitted';
+
+            // Exit fullscreen if active
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            isFullscreen = false;
+
             const form = document.getElementById('quizForm');
             const answers = [];
             const questions = document.querySelectorAll('.quiz-question');
@@ -155,6 +252,7 @@
                     correctCount++;
                 }
             });
+
             // Fetch username from backend (session)
             let username = "";
             try {
@@ -178,17 +276,23 @@
                 })
             });
             const data = await res.json();
-            document.getElementById('quizMsg').textContent = data.msg;
+            
             if (res.status === 201) {
+                document.getElementById('quizMsg').textContent = "Quiz submitted successfully!";
                 document.getElementById('quizMsg').style.color = 'limegreen';
+                document.getElementById('timerClock').style.color = '#28a745';
             } else {
+                document.getElementById('quizMsg').textContent = data.msg;
                 document.getElementById('quizMsg').style.color = 'red';
             }
+            
             // Show back button after submission
             document.getElementById('backToQuizList').style.display = 'inline-block';
         }
 
         function goBackToQuizList() {
+            quizActive = false;
+            clearTimeout(mouseTimer);
             // Reset UI to quiz list
             document.getElementById('quizForm').style.display = 'block';
             document.getElementById('quizMsg').textContent = '';
