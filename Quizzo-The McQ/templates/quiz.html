@@ -74,6 +74,7 @@
             <button type="button" class="btn-3d" onclick="submitQuiz()">Submit Quiz</button>
         </form>
         <div id="quizMsg" style="margin-top:1.2rem;font-weight:bold;"></div>
+        <button id="backToQuizList" class="btn-3d" style="display:none;margin-top:1.2rem;" onclick="goBackToQuizList()">&#8592; Back to Quiz List</button>
     </div>
     <script>
         let quizTimerInterval;
@@ -183,6 +184,16 @@
             } else {
                 document.getElementById('quizMsg').style.color = 'red';
             }
+            // Show back button after submission
+            document.getElementById('backToQuizList').style.display = 'inline-block';
+        }
+
+        function goBackToQuizList() {
+            // Reset UI to quiz list
+            document.getElementById('quizForm').style.display = 'block';
+            document.getElementById('quizMsg').textContent = '';
+            document.getElementById('backToQuizList').style.display = 'none';
+            loadQuizzes();
         }
     </script>
 </body>
