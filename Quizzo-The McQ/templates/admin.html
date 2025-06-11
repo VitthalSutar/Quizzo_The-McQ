@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
-<body style="    background: #6dc9fe; font-family: Arial, sans-serif;">
+<body style="background: #f4f8fb; font-family: Arial, sans-serif;">
     <div style="max-width:700px;margin:2.5rem auto 2rem auto;padding:2.5rem 2.5rem;background:#fff;border-radius:18px;box-shadow:0 4px 24px rgba(0,123,255,0.08);">
         <h2 style="color:#007bff;text-align:center;margin-bottom:2rem;letter-spacing:1px;">Admin Panel</h2>
         <button class="btn-3d" id="logoutButton" style="float:right;margin-bottom:1.5rem;background:linear-gradient(120deg,#ff4d4d 0%,#ffb347 100%);color:#fff;">Logout</button>
@@ -15,6 +15,7 @@
         <div id="adminOptions" style="display:flex;justify-content:center;gap:2rem;margin-bottom:2.5rem;">
             <button class="btn-3d" id="viewPerformanceButton" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">View Performance</button>
             <button class="btn-3d" id="addQuizButton" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">Add Quiz</button>
+            <button class="btn-3d" id="viewQuizzesButton" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">Quizzes</button>
         </div>
         <!-- Add Quiz Section -->
         <div id="addQuizSection" style="display: none;">
@@ -38,6 +39,11 @@
             </form>
             <div id="adminMsg" style="text-align:center;margin-top:1.5rem;font-weight:bold;"></div>
         </div>
+        <!-- Quizzes Section -->
+        <div id="quizzesSection" style="display: none;">
+            <h3 style="color:#007bff;text-align:center;margin-bottom:1.5rem;">All Quizzes</h3>
+            <div id="quizzesList"></div>
+        </div>
     </div>
 
     <script>
@@ -45,12 +51,66 @@
         document.getElementById('addQuizButton').onclick = function() {
             document.getElementById('adminOptions').style.display = 'none';
             document.getElementById('addQuizSection').style.display = 'block';
+            document.getElementById('quizzesSection').style.display = 'none';
         };
 
         // Redirect to results.html for performance
         document.getElementById('viewPerformanceButton').onclick = function() {
             window.location.href = '/results'; // Redirect to results.html
         };
+
+        // Show Quizzes Section
+        document.getElementById('viewQuizzesButton').onclick = async function() {
+            document.getElementById('adminOptions').style.display = 'none';
+            document.getElementById('addQuizSection').style.display = 'none';
+            document.getElementById('quizzesSection').style.display = 'block';
+            // Fetch quizzes from backend
+            const res = await fetch('/api/quizzes');
+            const quizzes = await res.json();
+            const list = document.getElementById('quizzesList');
+            list.innerHTML = '';
+            quizzes.forEach(quiz => {
+                const quizDiv = document.createElement('div');
+                quizDiv.style.background = '#f4f6fb';
+                quizDiv.style.borderRadius = '10px';
+                quizDiv.style.boxShadow = '0 2px 8px rgba(0,123,255,0.07)';
+                quizDiv.style.padding = '1.2rem 1rem 1rem 1rem';
+                quizDiv.style.marginBottom = '1.5rem';
+                quizDiv.innerHTML = `
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <h4 style="color:#007bff;margin:0;">${quiz.title}</h4>
+                        <button class="btn" style="background:#ff4d4d;color:#fff;padding:6px 16px;border-radius:6px;font-size:0.95rem;" onclick="deleteQuiz('${quiz.title.replace(/'/g, "\\'")}')">Delete</button>
+                    </div>
+                    <ol style="margin-left:1.2rem;">
+                        ${quiz.questions.map(q =>
+                            `<li style="margin-bottom:0.7rem;">
+                                <div style="font-weight:600;color:#222;">${q.question}</div>
+                                <ul style="margin-top:0.3rem;">
+                                    ${q.options.map(opt =>
+                                        `<li style="color:#333;">${opt}${opt === q.correct ? " <span style='color:#28a745;font-weight:bold;'>(Correct)</span>" : ""}</li>`
+                                    ).join('')}
+                                </ul>
+                            </li>`
+                        ).join('')}
+                    </ol>
+                `;
+                list.appendChild(quizDiv);
+            });
+        };
+
+        // Delete quiz function
+        async function deleteQuiz(title) {
+            if (!confirm(`Are you sure you want to delete the quiz "${title}"?`)) return;
+            const res = await fetch('/api/quiz', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title })
+            });
+            const data = await res.json();
+            alert(data.msg);
+            // Refresh the quizzes list
+            document.getElementById('viewQuizzesButton').onclick();
+        }
 
         // Add another question block
         document.getElementById('addQuestion').onclick = function() {

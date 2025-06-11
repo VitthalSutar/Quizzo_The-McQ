@@ -70,6 +70,19 @@ def add_quiz():
     mongo.db.quizzes.insert_one(data)
     return jsonify({"msg": "Quiz added"}), 201
 
+# Admin: Delete quiz
+@app.route('/api/quiz', methods=['DELETE'])
+def delete_quiz():
+    data = request.get_json()
+    title = data.get('title')
+    if not title:
+        return jsonify({'msg': 'Quiz title required'}), 400
+    result = mongo.db.quizzes.delete_one({'title': title})
+    if result.deleted_count:
+        return jsonify({'msg': 'Quiz deleted successfully'})
+    else:
+        return jsonify({'msg': 'Quiz not found'}), 404
+
 # Get available quizzes
 @app.route('/api/quizzes', methods=['GET'])
 def get_quizzes():
@@ -84,16 +97,20 @@ def submit_performance():
         return jsonify({"msg": "Unauthorized"}), 401
 
     data = request.json
-    username = session['username']
+    # Prefer username from session, but allow override if sent (for admin/manual testing)
+    username = data.get('username') or session['username']
+    quiz_title = data.get('quiz_title')
     answers = data.get('answers')
     correct_count = data.get('correctCount')
+    submitted_at = data.get('submitted_at') or datetime.utcnow().isoformat()
 
     # Store the performance in the database
     performance = {
         "username": username,
+        "quiz_title": quiz_title,
         "answers": answers,
         "correct_count": correct_count,
-        "submitted_at": datetime.utcnow()  # Add a timestamp
+        "submitted_at": submitted_at
     }
     mongo.db.performances.insert_one(performance)
 

@@ -120,10 +120,33 @@
                     correctCount++;
                 }
             });
+
+            // Fetch username from backend (session) or prompt if not available
+            let username = "";
+            try {
+                const userRes = await fetch('/api/user');
+                if (userRes.ok) {
+                    const userData = await userRes.json();
+                    username = userData.username || "";
+                }
+            } catch (e) {
+                // fallback if needed
+            }
+
+            // Get quiz name and timestamp
+            const quizTitle = document.getElementById('quizTitle').textContent;
+            const timestamp = new Date().toISOString();
+
             const res = await fetch('/api/performance', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ answers: answers, correctCount: correctCount })
+                body: JSON.stringify({
+                    username: username,
+                    quiz_title: quizTitle,
+                    answers: answers,
+                    correctCount: correctCount,
+                    submitted_at: timestamp
+                })
             });
             const data = await res.json();
             document.getElementById('quizMsg').textContent = data.msg;
