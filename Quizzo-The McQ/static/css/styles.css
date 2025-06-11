@@ -249,9 +249,10 @@ button:hover {
 .layer span {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  left: 0;padding: ;
+
+  height: 55px;
+  width: 64px;
   border: 1px solid #fff;
   border-radius: 5px;
   transition: all 0.3s;
@@ -303,9 +304,10 @@ button:hover {
 .layer span.fab {
   font-size: 30px;
   line-height: 64px;
+  width: 64px;
   text-align: center;
   fill: #1da1f2;
-  background: #000;
+  background: #ffffff;
 }
 .user {
   display: flex;
