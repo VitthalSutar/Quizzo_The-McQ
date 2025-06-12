@@ -6,11 +6,24 @@
   <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-  <h2>Results</h2>
-  <div id="quizListContainer">
+    <div class="glass-navbar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" style="border-radius: 5px;" />
+    </div>
+    <nav class="glass-nav">
+      <a href="/index" class="glass-link">Home</a>
+      <a href="/about" class="glass-link">About</a>
+      <a href="/feature" class="glass-link">Feature</a>
+      <a href="/login" class="glass-link">Login</a>
+      <a href="/signup" class="glass-link">Sign up</a>
+      <span class="glass-underline"></span>
+    </nav>
+  </div>
+  <h2 >Results</h2>
+  <div  id="quizListContainer">
     <!-- List of quizzes will be dynamically loaded here -->
   </div>
-  <div id="resultsContainer" style="display: none;">
+  <div  id="resultsContainer" style="display: none;">
     <!-- Performance data will be dynamically loaded here -->
   </div>
   <script>
