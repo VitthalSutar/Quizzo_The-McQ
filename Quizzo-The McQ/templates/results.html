@@ -3,6 +3,7 @@
 <head>
     <title>Results</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             margin: 0;
@@ -106,6 +107,33 @@
             border-bottom: none;
         }
 
+        .print-btn {
+            background: linear-gradient(120deg, #28a745 0%, #20c997 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            margin: 1rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .print-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+            background: linear-gradient(120deg, #20c997 0%, #28a745 100%);
+        }
+
+        .print-btn i {
+            font-size: 1.2rem;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -129,7 +157,18 @@
                 padding: 10px;
             }
         }
+
+        @media print {
+            .glass-navbar, .print-btn {
+                display: none !important;
+            }
+            
+            #resultsContainer {
+                box-shadow: none;
+            }
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="glass-navbar">
@@ -152,6 +191,9 @@
   <div  id="resultsContainer" style="display: none;">
     <!-- Performance data will be dynamically loaded here -->
   </div>
+  <button class="print-btn" id="printButton" style="display: none;">
+    <i class="fas fa-print"></i> Print Results
+  </button>
   <script>
     // Function to fetch and display quiz names
     async function loadQuizzes() {
@@ -226,11 +268,105 @@
           });
 
         container.appendChild(table);
+
+        // Add print button
+        const printBtn = document.createElement('button');
+        printBtn.className = 'print-btn';
+        printBtn.innerHTML = '<i class="fas fa-file-pdf"></i> Export as PDF';
+        printBtn.onclick = () => generatePDF(quizTitle);
+        
+        // Insert print button before the table
+        container.insertBefore(printBtn, table);
+
+        // Show print button
+        document.getElementById('printButton').style.display = 'flex';
       } catch (error) {
         console.error('Error loading performance data:', error);
         document.getElementById('resultsContainer').textContent = 'Failed to load performance data.';
       }
     }
+
+    // Add the PDF generation function
+function generatePDF(quizTitle) {
+    // Create a clone of the results container
+    const element = document.getElementById('resultsContainer').cloneNode(true);
+    
+    // Apply PDF-specific styles to the clone
+    const styleForPDF = document.createElement('style');
+    styleForPDF.textContent = `
+        table { border: 1px solid #dee2e6; }
+        th { 
+            background: #007bff !important; 
+            color: white !important;
+            font-weight: bold !important;
+            border: 1px solid #0056b3 !important;
+        }
+        td { 
+            color: #000000 !important;
+            border: 1px solid #dee2e6 !important;
+            background: white !important;
+        }
+        h3 { 
+            color: #007bff !important;
+            font-weight: bold !important;
+        }
+    `;
+    element.appendChild(styleForPDF);
+
+    const opt = {
+        margin: [0.5, 0.5],
+        filename: `${quizTitle}_Results.pdf`,
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { 
+            scale: 3,
+            useCORS: true,
+            letterRendering: true,
+            backgroundColor: '#ffffff'
+        },
+        jsPDF: { 
+            unit: 'in', 
+            format: 'a4', 
+            orientation: 'portrait',
+            compress: false
+        }
+    };
+
+    // Add a loading message
+    const loadingMsg = document.createElement('div');
+    loadingMsg.textContent = 'Generating PDF...';
+    loadingMsg.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #007bff;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        z-index: 1000;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    `;
+    document.body.appendChild(loadingMsg);
+
+    // Generate PDF with improved quality
+    html2pdf().set(opt).from(element).save().then(() => {
+        document.body.removeChild(loadingMsg);
+        element.remove(); // Clean up the clone
+    }).catch(err => {
+        console.error('PDF generation failed:', err);
+        document.body.removeChild(loadingMsg);
+        alert('Failed to generate PDF. Please try again.');
+    });
+}
+
+    // Print results as PDF
+    document.getElementById('printButton').onclick = () => {
+      const element = document.getElementById('resultsContainer');
+      html2pdf()
+        .from(element)
+        .save(`results_${new Date().toISOString().slice(0, 10)}.pdf`);
+    };
 
     // Load quizzes on page load
     loadQuizzes();
