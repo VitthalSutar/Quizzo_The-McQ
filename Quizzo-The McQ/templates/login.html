@@ -42,13 +42,11 @@
             required
           />
         </label>
-        <button class="btn" type="submit">Login</button>
-        <br>
-        <a class="btn-link" >Not registered yet?</a>
-        
-        
-        <br>
-        <button type="button" class="btn" onclick="window.location.href='/signup'" style="text-align: center;">Go to Signup</button>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <button class="btn" type="submit" style="width: 35%;">Login</button>
+          <a class="btn-link" style="margin: 10px 0;">Not registered yet?</a>
+          <button type="button" class="btn" onclick="window.location.href='/signup'" style="width: 35%;">Go to Signup</button>
+        </div>
       </form>
       <div id="loginMsg"></div>
     </div>

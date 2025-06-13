@@ -33,3 +33,167 @@
     <li>🎉 Participate in exciting quiz competitions!</li>
   </ul>
 </div>
+
+<style>
+
+  /* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right top, #dfe9f3, #ffffff);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #222;
+  overflow-x: hidden;
+  animation: fadeIn 1s ease-in;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Navbar with Glassmorphism */
+.glass-navbar {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 20px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: slideDown 1s ease-out;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.logo img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+}
+
+/* Nav Links */
+.glass-nav {
+  display: flex;
+  gap: 1.5rem;
+  position: relative;
+}
+
+.glass-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.glass-link:hover {
+  color: #007bff;
+  transform: translateY(-3px);
+}
+
+.glass-link::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 0%;
+  background: #007bff;
+  border-radius: 10px;
+  transition: width 0.4s ease;
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+}
+
+.glass-link:hover::after {
+  width: 100%;
+}
+
+/* Info Section with Animated List */
+.info-section {
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1.5s ease-in;
+}
+
+.info-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding: 0;
+}
+
+.info-list li {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem 1.2rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform: translateY(30px);
+  opacity: 0;
+  animation: slideUp 0.6s ease forwards;
+}
+
+.info-list li:nth-child(odd) {
+  animation-delay: 0.2s;
+}
+.info-list li:nth-child(even) {
+  animation-delay: 0.4s;
+}
+
+@keyframes slideUp {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.info-list li:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .glass-nav {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .info-list {
+    grid-template-columns: 1fr;
+  }
+
+  .glass-navbar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+</style>

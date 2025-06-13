@@ -5,50 +5,450 @@
     <title>Admin Panel</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
+<style>
+    /* General Body Styles */
+body {
+    margin: 0;
+    padding: 0;
+    background: #f4f8fb;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
 
-<body style="background: #f4f8fb; font-family: Arial, sans-serif;">
-    <div style="max-width:700px;margin:2.5rem auto 2rem auto;padding:2.5rem 2.5rem;background:#fff;border-radius:18px;box-shadow:0 4px 24px rgba(0,123,255,0.08);">
-        <h2 style="color:#007bff;text-align:center;margin-bottom:2rem;letter-spacing:1px;">Admin Panel</h2>
-        <button class="btn-3d" id="logoutButton" style="float:right;margin-bottom:1.5rem;background:linear-gradient(120deg,#ff4d4d 0%,#ffb347 100%);color:#fff;">Logout</button>
-        <div style="clear:both;"></div>
-        <!-- Options for Admin -->
-        <div id="adminOptions" style="display:flex;justify-content:center;gap:2rem;margin-bottom:2.5rem;">
-            <button class="btn-3d" id="viewPerformanceButton" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">View Performance</button>
-            <button class="btn-3d" id="addQuizButton" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">Add Quiz</button>
-            <button class="btn-3d" id="viewQuizzesButton" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">Quizzes</button>
+/* Container for the Admin Panel */
+.admin-container {
+    max-width: 700px;
+    margin: 2.5rem auto 2rem auto;
+    padding: 2.5rem 2.5rem;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0, 123, 255, 0.08);
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Main Title */
+.admin-title {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+    font-size: 2.2rem;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.admin-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(120deg, #00c6ff 0%, #007bff 100%);
+    border-radius: 5px;
+}
+
+/* Section Titles */
+.admin-subtitle {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    animation: slideInFromTop 0.6s ease-out;
+}
+
+/* Buttons - General Styles */
+.btn, .btn-3d {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover, .btn-3d:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* 3D Button Effect */
+.btn-3d {
+    position: relative;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(120deg, #00c6ff 0%, #007bff 100%);
+    font-weight: 600;
+    overflow: hidden;
+}
+
+.btn-3d::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    z-index: 1;
+    border-radius: 8px;
+}
+
+.btn-3d:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Specific Button Styles */
+.logout-btn {
+    /* Remove float and margin-bottom */
+    background: linear-gradient(120deg, #ff4d4d 0%, #ffb347 100%);
+    color: #fff;
+    font-weight: 600;
+}
+
+.primary-btn {
+    background: linear-gradient(120deg, #00c6ff 0%, #007bff 100%);
+    color: #fff;
+    font-weight: 600;
+}
+
+.back-btn {
+    float: left;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(120deg, #ff4d4d 0%, #ffb347 100%);
+    color: #fff;
+    font-weight: 600;
+}
+
+.remove-btn, .delete-btn {
+    background: #ff4d4d;
+    color: #fff;
+}
+
+.delete-btn {
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.add-question-btn {
+    margin-bottom: 1.2rem;
+}
+
+.submit-btn {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+}
+
+/* Admin Options Section */
+.admin-options {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.7s ease-out;
+}
+
+/* Section Containers (Add Quiz, Quizzes) */
+.section-container {
+    animation: slideInFromRight 0.7s ease-out;
+    padding-top: 1rem;
+}
+
+/* Input Fields and Textarea */
+.input-field {
+    width: calc(100% - 20px);
+    margin-bottom: 1rem;
+    padding: 12px 10px;
+    background: #f4f6fb;
+    color: #222;
+    border: 1px solid #cce0ff;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    background-color: #fff;
+}
+
+.question-textarea {
+    min-height: 70px;
+    resize: vertical;
+}
+
+/* Question Block in Add Quiz */
+.questionBlock, .question-block {
+    background: #f4f6fb;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.07);
+    padding: 1.2rem 1rem 1rem 1rem;
+    margin-bottom: 1.5rem;
+    animation: scaleIn 0.5s ease-out;
+}
+
+.question-separator {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 123, 255, 0), rgba(0, 123, 255, 0.75), rgba(0, 123, 255, 0));
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Admin Message */
+#adminMsg, .admin-message {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Quizzes List */
+#quizzesList, .quizzes-list {
+    margin-top: 1.5rem;
+}
+
+.quiz-item, #quizzesList > div {
+    background: #f4f6fb;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.07);
+    padding: 1.2rem 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quiz-item:hover, #quizzesList > div:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.15);
+}
+
+.quiz-title {
+    color: #007bff;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.quiz-timer {
+    font-size: 0.9em;
+    color: #888;
+}
+
+.quiz-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Modal Styles */
+#quizInfoModal, .modal-overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.quiz-info-modal, .modal-content {
+    background: #fff;
+    padding: 2rem 2.5rem;
+    border-radius: 14px;
+    max-width: 600px;
+    width: 95vw;
+    box-shadow: 0 4px 24px rgba(0, 123, 255, 0.18);
+    position: relative;
+    animation: scaleIn 0.3s ease-out;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 10px;
+    right: 18px;
+    background: #ff4d4d;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.close-modal-btn:hover {
+    background: #e63946;
+}
+
+.modal-title {
+    color: #007bff;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.quiz-questions-list {
+    margin-left: 1.2rem;
+    padding-left: 0;
+    list-style: decimal;
+}
+
+.quiz-questions-list li {
+    margin-bottom: 0.7rem;
+}
+
+.question-text {
+    font-weight: 600;
+    color: #222;
+}
+
+.question-options {
+    margin-top: 0.3rem;
+    padding-left: 20px;
+    list-style: disc;
+}
+
+.question-options li {
+    color: #333;
+}
+
+.correct-option {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+@keyframes slideInFromTop {
+    from { opacity: 0; transform: translateY(-20px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+
+@keyframes slideInFromRight {
+    from { opacity: 0; transform: translateX(20px);}
+    to { opacity: 1; transform: translateX(0);}
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95);}
+    to { opacity: 1; transform: scale(1);}
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .admin-container {
+        padding: 1.5rem 1.5rem;
+        margin: 1.5rem auto;
+    }
+
+    .admin-title {
+        font-size: 1.8rem;
+    }
+
+    .admin-subtitle {
+        font-size: 1.5rem;
+    }
+
+    .admin-options {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .btn-3d {
+        width: 100%;
+        padding: 12px 15px;
+    }
+
+    .quiz-item, #quizzesList > div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .quiz-actions {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+    .quiz-info-modal, .modal-content {
+        padding: 1.5rem 1.5rem;
+    }
+}
+</style>
+
+<body>
+    <div class="admin-container">
+        <h2 class="admin-title">Admin Panel</h2>
+        <div id="adminOptions" class="admin-options">
+            
+            <button class="btn-3d" id="viewPerformanceButton">View Performance</button>
+            <button class="btn-3d" id="addQuizButton">Add Quiz</button>
+            <button class="btn-3d" id="viewQuizzesButton">Quizzes</button>
+            <button class="btn-3d logout-btn" id="logoutButton">Logout</button>
         </div>
         <!-- Add Quiz Section -->
         <div id="addQuizSection" style="display: none;">
-            <h3 style="color:#007bff;text-align:center;margin-bottom:1.5rem;">Add Quiz</h3>
-            <button type="button" id="backFromAddQuiz" class="btn-3d" style="float:left;margin-bottom:1.5rem;background:linear-gradient(120deg,#ff4d4d 0%,#ffb347 100%);color:#fff;">&#8592; Back</button>
+            <h3 class="admin-subtitle">Add Quiz</h3>
+            <button type="button" id="backFromAddQuiz" class="btn-3d">&#8592; Back</button>
             <form id="quizForm">
-                <input type="text" name="title" placeholder="Quiz Title" required style="width:100%;margin-bottom:1rem;background:#f4f6fb;color:#222;border:1px solid #cce0ff;" class="input-field"><br>
-                <input type="number" name="timer" placeholder="Timer (seconds)" min="10" required style="width:100%;margin-bottom:1rem;background:#f4f6fb;color:#222;border:1px solid #cce0ff;" class="input-field"><br>
+                <input type="text" name="title" placeholder="Quiz Title" required class="input-field"><br>
+                <input type="number" name="timer" placeholder="Timer (seconds)" min="10" required class="input-field"><br>
                 <div id="questionsContainer">
-                    <div class="questionBlock" style="background:#f4f6fb;border-radius:10px;box-shadow:0 2px 8px rgba(0,123,255,0.07);padding:1.2rem 1rem 1rem 1rem;margin-bottom:1.5rem;">
-                        <textarea name="question" placeholder="Question" required style="width:100%;margin-bottom:0.7rem;background:#fff;color:#222;border:1px solid #cce0ff;" class="input-field"></textarea><br>
-                        <input type="text" name="option1" placeholder="Option 1" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
-                        <input type="text" name="option2" placeholder="Option 2" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
-                        <input type="text" name="option3" placeholder="Option 3" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
-                        <input type="text" name="option4" placeholder="Option 4" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
-                        <input type="text" name="correct" placeholder="Correct Option" required class="input-field" style="background:#fff;color:#222;border:1px solid #cce0ff;"><br>
-                        <button type="button" class="btn" style="background:#ff4d4d;color:#fff;" onclick="this.parentElement.remove()">Remove Question</button>
+                    <div class="questionBlock">
+                        <textarea name="question" placeholder="Question" required class="input-field"></textarea><br>
+                        <input type="text" name="option1" placeholder="Option 1" required class="input-field"><br>
+                        <input type="text" name="option2" placeholder="Option 2" required class="input-field"><br>
+                        <input type="text" name="option3" placeholder="Option 3" required class="input-field"><br>
+                        <input type="text" name="option4" placeholder="Option 4" required class="input-field"><br>
+                        <input type="text" name="correct" placeholder="Correct Option" required class="input-field"><br>
+                        <button type="button" class="btn" onclick="this.parentElement.remove()">Remove Question</button>
                         <hr>
                     </div>
                 </div>
-                <button type="button" class="btn-3d" id="addQuestion" style="margin-bottom:1.2rem;background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">Add Another Question</button><br>
-                <button type="submit" class="btn-3d" style="background:linear-gradient(120deg,#00c6ff 0%,#007bff 100%);color:#fff;">Add Quiz</button>
+                <button type="button" class="btn-3d" id="addQuestion">Add Another Question</button><br>
+                <button type="submit" class="btn-3d">Add Quiz</button>
             </form>
-            <div id="adminMsg" style="text-align:center;margin-top:1.5rem;font-weight:bold;"></div>
+            <div id="adminMsg"></div>
         </div>
         <!-- Quizzes Section -->
         <div id="quizzesSection" style="display: none;">
-            <button type="button" id="backFromQuizzes" class="btn-3d" style="float:left;margin-bottom:1.5rem;background:linear-gradient(120deg,#ff4d4d 0%,#ffb347 100%);color:#fff;">&#8592; Back</button>
-            <h3 style="color:#007bff;text-align:center;margin-bottom:1.5rem;">All Quizzes</h3>
+            <button type="button" id="backFromQuizzes" class="btn-3d">&#8592; Back</button>
+            <h3 class="admin-subtitle">All Quizzes</h3>
             <div id="quizzesList"></div>
             <div id="quizInfoModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);z-index:1000;align-items:center;justify-content:center;">
-                <div style="background:#fff;padding:2rem 2.5rem;border-radius:14px;max-width:600px;width:95vw;box-shadow:0 4px 24px rgba(0,123,255,0.18);position:relative;">
-                    <button id="closeQuizInfo" style="position:absolute;top:10px;right:18px;background:#ff4d4d;color:#fff;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;">Close</button>
+                <div class="quiz-info-modal">
+                    <button id="closeQuizInfo" class="close-modal-btn">Close</button>
                     <div id="quizInfoContent"></div>
                 </div>
             </div>
