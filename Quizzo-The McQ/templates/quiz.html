@@ -64,6 +64,7 @@
         }
 
         #timerClock {
+            font-family: 'Courier New', monospace;
             font-size: 1.4rem;
             color: #007bff;
             font-weight: 700;
@@ -72,7 +73,7 @@
             border-radius: 10px;
             display: inline-block;
             box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
-            transition: all 0.3s ease;
+            min-width: 220px;
         }
 
         /* Timer Warning State */
@@ -83,15 +84,15 @@
 
         @keyframes pulse {
             0% {
-                transform: scale(1);
+                opacity: 1;
             }
 
             50% {
-                transform: scale(1.02);
+                opacity: 0.5;
             }
 
             100% {
-                transform: scale(1);
+                opacity: 1;
             }
         }
 
@@ -344,23 +345,21 @@
             });
             container.dataset.correctAnswers = JSON.stringify(quiz.questions.map(q => q.correct));
             // Timer logic
-            quizTimeLeft = parseInt(quiz.timer) || 60;
-            document.getElementById('timerClock').textContent = `Time Left: ${quizTimeLeft}s`;
+            quizTimeLeft = parseInt(quiz.timer) || 3600; // default to 1 hour
+            document.getElementById('timerClock').textContent = `Time Left: ${formatTime(quizTimeLeft)}`;
             document.getElementById('timerClock').classList.remove('warning');
 
             quizTimerInterval = setInterval(() => {
                 quizTimeLeft--;
-                document.getElementById('timerClock').textContent = `Time Left: ${quizTimeLeft}s`;
+                document.getElementById('timerClock').textContent = `Time Left: ${formatTime(quizTimeLeft)}`;
                 
-                // Add warning class when time is running low
-                if (quizTimeLeft <= 30) {
+                if (quizTimeLeft <= 300) { // 5 minutes warning
                     document.getElementById('timerClock').classList.add('warning');
                 }
                 
                 if (quizTimeLeft <= 0) {
                     clearInterval(quizTimerInterval);
                     document.getElementById('timerClock').textContent = "Time's up!";
-                    document.getElementById('timerClock').style.color = '#ff4d4d';
                     submitQuiz();
                 }
             }, 1000);
@@ -425,6 +424,14 @@
                 elem.msRequestFullscreen();
             }
             isFullscreen = true;
+        }
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
 
         async function submitQuiz() {
