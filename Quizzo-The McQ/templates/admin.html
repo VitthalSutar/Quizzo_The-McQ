@@ -420,8 +420,9 @@ body {
         <!-- Add Quiz Section -->
         <div id="addQuizSection" style="display: none;">
             <h3 class="admin-subtitle">Add Quiz</h3>
-            <button type="button" id="backFromAddQuiz" class="btn-3d">&#8592; Back</button>
+            <button type="button" id="backFromAddQuiz" class="btn-3d">&#8592; Back</button><br>
             <form id="quizForm">
+                <br>
                 <input type="text" name="title" placeholder="Quiz Title" required class="input-field"><br>
                 <input type="number" name="timer" placeholder="Timer (seconds)" min="10" required class="input-field"><br>
                 <div id="questionsContainer">
@@ -432,11 +433,11 @@ body {
                         <input type="text" name="option3" placeholder="Option 3" required class="input-field"><br>
                         <input type="text" name="option4" placeholder="Option 4" required class="input-field"><br>
                         <input type="text" name="correct" placeholder="Correct Option" required class="input-field"><br>
-                        <button type="button" class="btn" onclick="this.parentElement.remove()">Remove Question</button>
+                        <button type="button" class="btn" onclick="this.parentElement.remove()" style="background-color: #ff8000;">Remove Question</button>
                         <hr>
                     </div>
                 </div>
-                <button type="button" class="btn-3d" id="addQuestion">Add Another Question</button><br>
+                <button type="button" class="btn-3d" id="addQuestion">Add Another Question</button><br><br>
                 <button type="submit" class="btn-3d">Add Quiz</button>
             </form>
             <div id="adminMsg"></div>

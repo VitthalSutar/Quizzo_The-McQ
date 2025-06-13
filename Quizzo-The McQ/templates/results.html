@@ -1,9 +1,135 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Results</title>
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="/static/css/styles.css">
+    <title>Results</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f4f8fb;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+
+        h2 {
+            color: #007bff;
+            text-align: center;
+            margin: 2rem 0;
+            letter-spacing: 1px;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(120deg, #00c6ff 0%, #007bff 100%);
+            border-radius: 5px;
+        }
+
+        #quizListContainer, #resultsContainer {
+            max-width: 800px;
+            margin: 2.5rem auto;
+            padding: 2.5rem;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0, 123, 255, 0.08);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        #quizListContainer button {
+            background: linear-gradient(120deg, #00c6ff 0%, #007bff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            margin: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+            display: block;
+            width: max-content;
+        }
+
+        #quizListContainer button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+            background: linear-gradient(120deg, #007bff 0%, #00c6ff 100%);
+        }
+
+        #resultsContainer h3 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0, 123, 255, 0.08);
+        }
+
+        th {
+            background: linear-gradient(120deg, #00c6ff 0%, #007bff 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            #quizListContainer, #resultsContainer {
+                margin: 1.5rem;
+                padding: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="glass-navbar">
@@ -70,7 +196,7 @@
             <tr>
               <th>Username</th>
               <th>Correct Answers</th>
-              <th>Timestamp</th>
+              <th>Submission Date</th>
             </tr>
           </thead>
           <tbody>
@@ -78,8 +204,16 @@
         `;
         const tbody = table.querySelector('tbody');
 
-        // Populate the table with performance data
-        performances
+        // Filter to keep only first attempt for each user
+        const firstAttempts = performances.reduce((acc, curr) => {
+            if (!acc[curr.username] || new Date(curr.submitted_at) < new Date(acc[curr.username].submitted_at)) {
+                acc[curr.username] = curr;
+            }
+            return acc;
+        }, {});
+
+        // Convert to array and sort by correct answers
+        Object.values(firstAttempts)
           .sort((a, b) => b.correct_count - a.correct_count) // Sort by correct answers in descending order
           .forEach(performance => {
             const row = document.createElement('tr');
