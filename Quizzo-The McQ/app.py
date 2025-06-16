@@ -28,6 +28,12 @@ def about():
 def feature():
     return render_template('feature.html')
 
+@app.route('/jdfladflkajdsf')
+def jdfladflkajdsf():
+    return render_template('jdfladflkajdsf.html')
+
+
+
 
 # (Optional) You can remove all API endpoints below if you want to remove API routes as well.
 # If you want to keep API functionality, leave the following code.
