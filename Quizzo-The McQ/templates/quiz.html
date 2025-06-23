@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
+        /* General Body Styles */
         body {
+<<<<<<< HEAD
             min-height: 100vh;
             margin: 0;
             background: linear-gradient(135deg, #e3dcdc, #06ffff, #0f6e0f) !important;
@@ -29,66 +31,189 @@
         }
    
 
-        .quiz-container {
-            max-width: 700px;
-            margin: 2rem auto;
-            background: #fff;
-            color: #232946;
-            border-radius: 14px;
-            box-shadow: 0 4px 24px rgba(0, 198, 255, 0.08);
-            padding: 2rem 2rem 1.5rem 2rem;
+=======
+            margin: 0;
+            padding: 0;
+            background: #f4f8fb;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
         }
 
+        /* Container Styles */
+>>>>>>> 4cd85641840d01004d11a7f5c5c51491fa621c96
+        .quiz-container {
+            max-width: 700px;
+            margin: 2.5rem auto 2rem auto;
+            padding: 2.5rem;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0, 123, 255, 0.08);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Quiz Title */
+        #quizTitle {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+            font-size: 2.2rem;
+            position: relative;
+            padding-bottom: 15px;
+            text-transform: capitalize;
+            font-weight: 600;
+        }
+
+        #quizTitle::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(120deg, #00c6ff 0%, #007bff 100%);
+            border-radius: 5px;
+        }
+
+        /* Timer Container */
         #timerContainer {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin: 2rem auto;
+            padding: 1rem;
+            max-width: 200px;
+            background: linear-gradient(120deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.1);
+            animation: fadeIn 0.8s ease-out;
         }
 
         #timerClock {
-            font-size: 1.3rem;
-            color: #ff4d4d;
-            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            color: #007bff;
+            font-weight: 700;
+            padding: 12px 20px;
+            background: white;
+            border-radius: 10px;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
+            min-width: 220px;
         }
 
+        /* Timer Warning State */
+        #timerClock.warning {
+            color: #ff4d4d;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Question Styles */
         .quiz-question {
             background: #f4f6fb;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 198, 255, 0.07);
-            padding: 1.2rem 1rem 1rem 1rem;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.07);
+            padding: 1.5rem;
             margin-bottom: 1.5rem;
-            transition: box-shadow 0.2s;
+            transition: all 0.3s ease;
         }
 
         .quiz-question:hover {
-            box-shadow: 0 4px 16px #00c6ff44;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 123, 255, 0.15);
         }
 
+        .quiz-question p {
+            color: #007bff;
+            font-weight: 600;
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Option Labels */
+        .quiz-question label {
+            display: block;
+            padding: 12px 15px;
+            margin-bottom: 0.8rem;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #232946;
+            font-size: 1rem;
+        }
+
+        .quiz-question label:hover {
+            background: #e8f0fe;
+            transform: translateX(5px);
+        }
+
+        /* Button Styles */
         .btn-3d {
             background: linear-gradient(120deg, #00c6ff 0%, #007bff 100%);
             color: #fff;
             border: none;
             border-radius: 8px;
-            padding: 10px 24px;
+            padding: 12px 24px;
             font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 1rem;
-            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
         }
 
         .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
             background: linear-gradient(120deg, #007bff 0%, #00c6ff 100%);
         }
 
+        /* Warning Message */
         .warning-message {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #ff4d4d;
+            background: linear-gradient(120deg, #ff4d4d 0%, #f02929 100%);
             color: white;
             padding: 15px 25px;
             border-radius: 8px;
             z-index: 1000;
             animation: slideIn 0.3s ease-out;
+            box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+        }
+
+        /* Quiz Message */
+        #quizMsg {
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            background: #f4f6fb;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes slideIn {
@@ -100,25 +225,74 @@
                 transform: translateX(0);
             }
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .quiz-container {
+                margin: 1.5rem;
+                padding: 1.5rem;
+            }
+
+            #quizTitle {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+
+            #timerContainer {
+                max-width: 180px;
+                padding: 0.8rem;
+                margin: 1.5rem auto;
+            }
+
+            #timerClock {
+                font-size: 1.2rem;
+                padding: 10px 15px;
+            }
+
+            .btn-3d {
+                width: 100%;
+                padding: 12px 15px;
+            }
+
+            .quiz-question {
+                padding: 1.2rem;
+            }
+        }
+
+        /* Radio Button Styling */
+        input[type="radio"] {
+            accent-color: #007bff;
+            transform: scale(1.2);
+            margin-right: 10px;
+        }
+
+        /* Back Button Specific */
+        #backToQuizList {
+            background: linear-gradient(120deg, #6c757d 0%, #495057 100%);
+            margin-top: 1.5rem;
+        }
+
+        #backToQuizList:hover {
+            background: linear-gradient(120deg, #495057 0%, #6c757d 100%);
+        }
     </style>
 </head>
 
 <body oncontextmenu="return false;">
 
-     
-  <div class="glass-navbar">
-    <div class="logo">
-      <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" style="border-radius: 5px;" />
+    <div class="glass-navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" style="border-radius: 5px;" />
+        </div>
+        <nav class="glass-nav">
+            <a href="/index" class="glass-link">Home</a>
+            <a href="/about" class="glass-link">About</a>
+            <a href="/feature" class="glass-link">Feature</a>
+            <a href="/login" class="glass-link">Login</a>
+            <a href="/signup" class="glass-link">Sign up</a>
+            <span class="glass-underline"></span>
+        </nav>
     </div>
-    <nav class="glass-nav">
-      <a href="/index" class="glass-link">Home</a>
-      <a href="/about" class="glass-link">About</a>
-      <a href="/feature" class="glass-link">Feature</a>
-      <a href="/login" class="glass-link">Login</a>
-      <a href="/signup" class="glass-link">Sign up</a>
-      <span class="glass-underline"></span>
-    </nav>
-  </div>
 
     <div class="quiz-container">
         <h2 id="quizTitle"></h2>
@@ -127,7 +301,7 @@
         </div>
         <form id="quizForm">
             <div id="questionsContainer"></div>
-            <button type="button" class="btn-3d" onclick="submitQuiz()">Submit Quiz</button>
+            <button type="button" id="submitQuizBtn" class="btn-3d" onclick="submitQuiz()" style="display: none;">Submit Quiz</button>
         </form>
         <div id="quizMsg" style="margin-top:1.2rem;font-weight:bold;"></div>
         <button id="backToQuizList" class="btn-3d" style="display:none;margin-top:1.2rem;" onclick="goBackToQuizList()">&#8592; Back to Quiz List</button>
@@ -150,6 +324,11 @@
             const quizList = document.createElement('div');
             quizList.style.textAlign = 'center';
             quizList.innerHTML = '<h3>Select a Quiz</h3>';
+
+            // Hide submit button and timer container when showing quiz list
+            document.getElementById('submitQuizBtn').style.display = 'none';
+            document.getElementById('timerContainer').style.display = 'none';
+
             quizzes.forEach((quiz, idx) => {
                 const button = document.createElement('button');
                 button.textContent = quiz.title;
@@ -168,6 +347,11 @@
         async function loadQuiz(quiz) {
             clearInterval(quizTimerInterval);
             currentQuiz = quiz;
+
+            // Show submit button and timer container when quiz starts
+            document.getElementById('submitQuizBtn').style.display = 'block';
+            document.getElementById('timerContainer').style.display = 'block';
+
             document.getElementById('quizTitle').textContent = quiz.title;
             const container = document.getElementById('questionsContainer');
             container.innerHTML = '';
@@ -186,11 +370,18 @@
             });
             container.dataset.correctAnswers = JSON.stringify(quiz.questions.map(q => q.correct));
             // Timer logic
-            quizTimeLeft = parseInt(quiz.timer) || 60;
-            document.getElementById('timerClock').textContent = `Time Left: ${quizTimeLeft}s`;
+            quizTimeLeft = parseInt(quiz.timer) || 3600; // default to 1 hour
+            document.getElementById('timerClock').textContent = `Time Left: ${formatTime(quizTimeLeft)}`;
+            document.getElementById('timerClock').classList.remove('warning');
+
             quizTimerInterval = setInterval(() => {
                 quizTimeLeft--;
-                document.getElementById('timerClock').textContent = `Time Left: ${quizTimeLeft}s`;
+                document.getElementById('timerClock').textContent = `Time Left: ${formatTime(quizTimeLeft)}`;
+                
+                if (quizTimeLeft <= 300) { // 5 minutes warning
+                    document.getElementById('timerClock').classList.add('warning');
+                }
+                
                 if (quizTimeLeft <= 0) {
                     clearInterval(quizTimerInterval);
                     document.getElementById('timerClock').textContent = "Time's up!";
@@ -260,6 +451,14 @@
             isFullscreen = true;
         }
 
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const remainingSeconds = seconds % 60;
+            
+            return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+
         async function submitQuiz() {
             // Clear all timers and reset states
             quizActive = false;
@@ -315,6 +514,8 @@
                 document.getElementById('quizMsg').textContent = "Quiz submitted successfully!";
                 document.getElementById('quizMsg').style.color = 'limegreen';
                 document.getElementById('timerClock').style.color = '#28a745';
+                // Hide submit button after successful submission
+                document.getElementById('submitQuizBtn').style.display = 'none';
             } else {
                 document.getElementById('quizMsg').textContent = data.msg;
                 document.getElementById('quizMsg').style.color = 'red';
