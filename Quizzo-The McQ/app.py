@@ -72,6 +72,14 @@ def logout():
     session.clear()
     return jsonify({"msg": "Logged out"})
 
+def hms_to_seconds(hms):
+    """Convert HH:MM:SS string to total seconds as int."""
+    try:
+        h, m, s = map(int, hms.strip().split(':'))
+        return h * 3600 + m * 60 + s
+    except Exception:
+        return 60  # fallback default
+
 # Admin: Add quiz
 @app.route('/api/quiz', methods=['POST'])
 def add_quiz():
@@ -80,7 +88,8 @@ def add_quiz():
     data = request.json
     title = data.get('title')
     questions = data.get('questions')
-    timer = int(data.get('timer', 60))
+    timer_str = data.get('timer', '00:01:00')
+    timer = hms_to_seconds(timer_str)
     if not title or not questions:
         return jsonify({'msg': 'Title and questions required'}), 400
     quiz = {

@@ -6,14 +6,28 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <style>
-    /* General Body Styles */
-body {
-    margin: 0;
-    padding: 0;
-    background: #f4f8fb;
-    font-family: 'Poppins', sans-serif;
-    color: #333;
-}
+/* General Body Styles */
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #e3dcdc, #06ffff, #0f6e0f) !important;
+            background-size: 400% 400% !important;
+            animation: gradientShift 1s ease-in-out infinite !important;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
 
 /* Container for the Admin Panel */
 .admin-container {
