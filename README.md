@@ -34,8 +34,15 @@
 ## 📸 Screenshots 🎨  
 
 <p align="center">
-  <img src="assets/screenshots/home.png" width="350" alt="Quizzo Home"/>
-  <img src="assets/screenshots/question.png" width="350" alt="Quizzo Question"/>
+    <img src="static/images/home.png" width="350" alt="Home"/>
+  <img src="static/images/question.png" width="350" alt="Question"/>
+  <img src="static/images/result.png" width="350" alt="Result"/>
+  <img src="static/images/dashboard.png" width="350" alt="Dashboard"/>
+  <img src="static/images/leaderboard.png" width="350" alt="Leaderboard"/>
+  <img src="static/images/profile.png" width="350" alt="Profile"/>
+  <img src="static/images/settings.png" width="350" alt="Settings"/>
+  <img src="static/images/about.png" width="350" alt="About"/>
+
 </p>
 
 ---
@@ -88,4 +95,4 @@ Join the **Quizzo** community and help make it even better!
 ## 📬 Contact  
 
 Created by **[VitthalSutar](https://github.com/VitthalSutar)** 
-**[Adownloader17](https://github.com/Adownloader17)**– Have questions or suggestions? **Reach out!**  
+**[Adownloader17](https://github.com/Adownloader17)**– Have questions or suggestions? **Reach out!**
