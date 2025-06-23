@@ -9,7 +9,7 @@
 ---
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/674621/209432385-1e2e2e2e-1e2e-4e2e-8e2e-1e2e2e2e2e2e.png" width="300" alt="Quizzo Logo"/>
+  <img src="Quizzo-The McQ\static\images\logo.jpg" width="300" alt="Quizzo Logo"/>
 </p>
 
 ---
@@ -34,15 +34,16 @@
 ## 📸 Screenshots 🎨  
 
 <p align="center">
-    <img src="static/images/home.png" width="350" alt="Home"/>
-  <img src="static/images/question.png" width="350" alt="Question"/>
-  <img src="static/images/result.png" width="350" alt="Result"/>
-  <img src="static/images/dashboard.png" width="350" alt="Dashboard"/>
-  <img src="static/images/leaderboard.png" width="350" alt="Leaderboard"/>
-  <img src="static/images/profile.png" width="350" alt="Profile"/>
-  <img src="static/images/settings.png" width="350" alt="Settings"/>
-  <img src="static/images/about.png" width="350" alt="About"/>
-
+  <img src="Quizzo-The McQ\static\images\Home page.png" width="350" alt="Home"/>
+  <img src="Quizzo-The McQ\static\images\About Page.png" width="350" alt="Question"/>
+  <img src="Quizzo-The McQ\static\images\Result.png" width="350" alt="Result"/>
+  <img src="Quizzo-The McQ\static\images\Admin page.png" width="350" alt="Dashboard"/>
+  <img src="Quizzo-The McQ\static\images\Feature page.png" width="350" alt="Features"/>
+  <img src="Quizzo-The McQ\static\images\signup page.png" width="350" alt="Sign Up"/>
+  <img src="Quizzo-The McQ\static\images\Login Page.png" width="350" alt="Login"/>
+  <img src="Quizzo-The McQ\static\images\Add Quiz.png" width="350" alt="Add Quiz"/>
+  <img src="Quizzo-The McQ\static\images\Quiz Page.png" width="350" alt="Quiz Page"/>
+  <img src="Quizzo-The McQ\static\images\Database.png" width="350" alt="Database"/>
 </p>
 
 ---
