@@ -34,16 +34,46 @@
 ## 📸 Screenshots 🎨  
 
 <p align="center">
-  <img src="Quizzo-The McQ\static\images\Home page.png" width="350" alt="Home"/>
-  <img src="Quizzo-The McQ\static\images\About Page.png" width="350" alt="Question"/>
-  <img src="Quizzo-The McQ\static\images\Result.png" width="350" alt="Result"/>
-  <img src="Quizzo-The McQ\static\images\Admin page.png" width="350" alt="Dashboard"/>
-  <img src="Quizzo-The McQ\static\images\Feature page.png" width="350" alt="Features"/>
-  <img src="Quizzo-The McQ\static\images\signup page.png" width="350" alt="Sign Up"/>
-  <img src="Quizzo-The McQ\static\images\Login Page.png" width="350" alt="Login"/>
-  <img src="Quizzo-The McQ\static\images\Add Quiz.png" width="350" alt="Add Quiz"/>
-  <img src="Quizzo-The McQ\static\images\Quiz Page.png" width="350" alt="Quiz Page"/>
-  <img src="Quizzo-The McQ\static\images\Database.png" width="350" alt="Database"/>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/Home page.png" width="350" alt="Home page"/>
+    <figcaption>Home page</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/About Page.png" width="350" alt="About Page"/>
+    <figcaption>About Page</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/Result.png" width="350" alt="Result"/>
+    <figcaption>Result</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/Admin page.png" width="350" alt="Admin page"/>
+    <figcaption>Admin page</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/Feature page.png" width="350" alt="Feature page"/>
+    <figcaption>Feature page</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/signup page.png" width="350" alt="signup page"/>
+    <figcaption>signup page</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/Login Page.png" width="350" alt="Login Page"/>
+    <figcaption>Login Page</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/Add Quiz.png" width="350" alt="Add Quiz"/>
+    <figcaption>Add Quiz</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/Quiz Page.png" width="350" alt="Quiz Page"/>
+    <figcaption>Quiz Page</figcaption>
+  </figure>
+  <figure style="display:inline-block; margin: 10px;">
+    <img src="Quizzo-The McQ/static/images/Database.png" width="350" alt="Database"/>
+    <figcaption>Database</figcaption>
+  </figure>
 </p>
 
 ---
