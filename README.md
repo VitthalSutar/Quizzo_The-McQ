@@ -34,44 +34,44 @@
 ## 📸 Screenshots 🎨  
 
 <p align="center">
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/Home page.png" width="350" alt="Home page"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/Home page.png" style="width: auto; max-width: 100%;" alt="Home page"/>
     <figcaption>Home page</figcaption>
   </figure>
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/About Page.png" width="350" alt="About Page"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/About Page.png" style="width: auto; max-width: 100%;" alt="About Page"/>
     <figcaption>About Page</figcaption>
   </figure>
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/Result.png" width="350" alt="Result"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/Result.png" style="width: auto; max-width: 100%;" alt="Result"/>
     <figcaption>Result</figcaption>
   </figure>
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/Admin page.png" width="350" alt="Admin page"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/Admin page.png" style="width: auto; max-width: 100%;" alt="Admin page"/>
     <figcaption>Admin page</figcaption>
   </figure>
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/Feature page.png" width="350" alt="Feature page"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/Feature page.png" style="width: auto; max-width: 100%;" alt="Feature page"/>
     <figcaption>Feature page</figcaption>
   </figure>
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/signup page.png" width="350" alt="signup page"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/signup page.png" style="width: auto; max-width: 100%;" alt="signup page"/>
     <figcaption>signup page</figcaption>
   </figure>
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/Login Page.png" width="350" alt="Login Page"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/Login Page.png" style="width: auto; max-width: 100%;" alt="Login Page"/>
     <figcaption>Login Page</figcaption>
   </figure>
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/Add Quiz.png" width="350" alt="Add Quiz"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/Add Quiz.png" style="width: auto; max-width: 100%;" alt="Add Quiz"/>
     <figcaption>Add Quiz</figcaption>
   </figure>
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/Quiz Page.png" width="350" alt="Quiz Page"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/Quiz Page.png" style="width: auto; max-width: 100%;" alt="Quiz Page"/>
     <figcaption>Quiz Page</figcaption>
   </figure>
-  <figure style="display:inline-block; margin: 10px;">
-    <img src="Quizzo-The McQ/static/images/Database.png" width="350" alt="Database"/>
+  <figure style="display:inline-block; margin: 2px; margin-bottom: 10px;">
+    <img src="Quizzo-The McQ/static/images/Database.png" style="width: auto; max-width: 100%;" alt="Database"/>
     <figcaption>Database</figcaption>
   </figure>
 </p>
